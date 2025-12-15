@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💖</title>
+  <style>
+    :root{
+      --bg1:#ffdde1;
+      --bg2:#ee9ca7;
+      --card:#ffffffcc;
+      --text:#1f1f1f;
+      --btn:#ff4d6d;
+      --btn2:#222;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(circle at top, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+    .card{
+      width:min(560px, 92vw);
+      padding:28px 22px;
+      background:var(--card);
+      border:1px solid #ffffff90;
+      border-radius:24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      position:relative;
+      backdrop-filter: blur(10px);
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(22px, 3vw, 28px);
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:0 0 18px;
+      opacity:.8;
+    }
+    .type{
+      min-height:84px;
+      padding:14px 16px;
+      background:#fff;
+      border-radius:18px;
+      border:1px solid #00000010;
+      line-height:1.5;
+      font-size: clamp(16px, 2.2vw, 18px);
+      white-space:pre-wrap;
+    }
+    .row{
+      margin-top:16px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    button{
+      border:none;
+      padding:12px 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:16px;
+      transition: transform .12s ease;
+      user-select:none;
+    }
+    button:active{ transform: scale(.98); }
+    .yes{
+      background:var(--btn);
+      color:white;
+      box-shadow: 0 12px 24px rgba(255,77,109,.35);
+    }
+    .no{
+      background:#111;
+      color:#fff;
+      position:relative;
+    }
+    .footer{
+      margin-top:14px;
+      text-align:center;
+      opacity:.75;
+      font-size:13px;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background:rgba(0,0,0,.35);
+      padding:18px;
+      z-index:50;
+    }
+    .modal.open{ display:grid; }
+    .modalBox{
+      width:min(520px, 92vw);
+      background:#fff;
+      border-radius:22px;
+      padding:22px;
+      text-align:center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .modalBox h2{ margin:0 0 8px; }
+    .modalBox p{ margin:0 0 14px; opacity:.85; }
+    .close{
+      background:var(--btn2);
+      color:#fff;
+    }
+
+    /* Hearts */
+    .heart{
+      position:fixed;
+      bottom:-20px;
+      font-size:18px;
+      pointer-events:none;
+      animation: floatUp linear forwards;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.15));
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(0) scale(1); opacity:1; }
+      to{ transform: translateY(-110vh) scale(1.6); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card" id="card">
+    <h1>💌</h1>
+    <p class="sub">Read slowly 🙂</p>
+
+    <div class="type" id="type"></div>
+
+    <div class="row">
+      <button class="yes" id="yesBtn">Yes 💖</button>
+      <button class="no" id="noBtn">No 🙃</button>
+    </div>
+
+    <div class="footer">I weird I know =]].</div>
+  </main>
+
+  <div class="modal" id="modal">
+    <div class="modalBox">
+      <h2>YAY!! 🥹💘</h2>
+      <p>Only choice còn j nữa =]]</p>
+      <button class="close" id="closeBtn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // 1) Customize your message here:
+    const lines = [
+      "Yêu anh đê =))))))) 💗🤍🥰😍😘💖"
+    ];
+
+    // Typewriter effect
+    const typeEl = document.getElementById("type");
+    let lineIndex = 0, charIndex = 0;
+
+    function typeNext(){
+      if (lineIndex >= lines.length) return;
+      const current = lines[lineIndex];
+
+      if (charIndex <= current.length){
+        const before = lines.slice(0, lineIndex).join("\n");
+        const now = current.slice(0, charIndex);
+        typeEl.textContent = (before ? before + "\n" : "") + now;
+        charIndex++;
+        setTimeout(typeNext, 28);
+      } else {
+        // move to next line
+        typeEl.textContent += "\n";
+        lineIndex++;
+        charIndex = 0;
+        setTimeout(typeNext, 220);
+      }
+    }
+    typeNext();
+
+    // 2) No button runs away
+    const noBtn = document.getElementById("noBtn");
+    const card = document.getElementById("card");
+
+    function moveNoButton(){
+      // Keep it within the card bounds
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const padding = 12;
+      const maxX = cardRect.width - btnRect.width - padding;
+      const maxY = 140; 
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = (x + padding) + "px";
+      noBtn.style.top  = (y + 210) + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    // 3) Yes button: show modal + hearts
+    const yesBtn = document.getElementById("yesBtn");
+    const modal = document.getElementById("modal");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function spawnHearts(count = 40){
+      const emojis = ["💖","💘","💗","💓","💕","😍","💞"];
+      for (let i = 0; i < count; i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = (2.2 + Math.random() * 2.2) + "s";
+        el.style.fontSize = (14 + Math.random() * 22) + "px";
+        document.body.appendChild(el);
+
+        setTimeout(() => el.remove(), 4500);
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      modal.classList.add("open");
+      spawnHearts(80);
+    });
+
+    closeBtn.addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+  </script>
+</body>
+</html>
